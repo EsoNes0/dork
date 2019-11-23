@@ -176,17 +176,18 @@ def test_none_item():
 
 def test_only_stat(mocker):
     """Checks that an object with only a stat is unusable"""
-    with mocker.patch('builtins.input') as inpt:
-        inpt.side_effect = ["player"]
-        test_key = types.Item()
-        test_player = types.Player()
-        test_player.name = "player"
-        test_key.make({"name": "empty thing",
-                       "description": "nothin",
-                       "type": 1})
-        out = test_key.use(test_player, "empty thing")
-        assert out == ("You find no use of this item"),\
-            "use method failed for gold items"
+    mocked_input = mocker.patch('builtins.input')
+
+    mocked_input.side_effect = ["player"]
+    test_key = types.Item()
+    test_player = types.Player()
+    test_player.name = "player"
+    test_key.make({"name": "empty thing",
+                   "description": "nothin",
+                   "type": 1})
+    out = test_key.use(test_player, "empty thing")
+    assert out == ("You find no use of this item"),\
+        "use method failed for gold items"
 
 
 def test_runtime_items(run):
